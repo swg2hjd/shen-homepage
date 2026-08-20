@@ -11,7 +11,7 @@
 - 项目根目录：`E:\ai-project\self\shen-homepage`
 - 本地预览：当前对话中使用过 `http://127.0.0.1:4173/`
 - 项目是原生 HTML/CSS/JavaScript，无构建框架
-- `package.json` 只有轻量 Node 测试脚本：`npm test`
+- 页面当前无构建依赖和测试脚本，发布时直接使用 `index.html` 与 `assets/`
 - 页面依赖 GSAP 3.12.5 CDN，动画在 CDN 不可用时应保持基本内容可见
 
 ## 当前页面定位
@@ -50,19 +50,22 @@ Rowan Shen：前端开发者 / AI 产品构建者。
 
 当前分支：`main`
 
-最近提交：`ff7c59e Add local project tooling`
+最近提交：`7412e8e Refine personal homepage and remove test tooling`
 
-当前有未提交改动，不能回滚或覆盖：
+本轮已完成清理、提交和 HTTPS 推送：
 
-- 已修改：`assets/ai-console.svg`、`assets/style.css`、`index.html`、`tests/site.test.mjs`
-- 未跟踪：`assets/ai-console-light.svg`、`assets/app.js`、`assets/motion.js`、`assets/css/`
+- 删除无关测试工具：`package.json`、`tests/site.test.mjs`
+- 保留页面运行所需文件：`index.html`、`assets/`、`.gitignore`
+- 保留交接和实现原理文档：`handoff/`、`implementation-notes/`
+- 远程：`origin` 使用 HTTPS，已同步到 `origin/main`
+- 推送提交：`7412e8e`
 - 本次交接文档目录：`handoff/20260820-1516/`
 
-这些文件属于当前页面实现的一部分。用户之前明确要求先不要提交代码，因此下一次开始时默认继续本地修改，不要自动 commit 或 push。
+当前工作区在推送后应保持 clean。下一次开始时先运行 `git status --short` 和 `git log -1 --oneline` 确认状态，再继续修改。
 
 ## 已知注意事项
 
-- 用户明确说这是小网页，不需要复杂 TDD 测试。改动后做 `node --check`、`git diff --check` 或必要的简单浏览器检查即可。
+- 用户明确说这是小网页，不需要复杂 TDD 测试。当前已移除测试脚本，改动后做 `node --check`、`git diff --check` 或必要的简单浏览器检查即可。
 - 浅色切换到深色的 View Transition 曾有过完成瞬间闪烁问题；当前动画方向和交互逻辑已基本符合预期，除非用户再次提出，不要贸然重写主题切换机制。
 - `assets/app.js` 中的页面联系方式已保留在源码中，交接文档不复制实际邮箱等敏感信息。
 - 页面仍依赖 GSAP CDN；如果需要提高 GitHub Pages 离线稳定性，可考虑后续本地化依赖，但不要在普通视觉迭代中顺手引入构建复杂度。
@@ -75,7 +78,7 @@ Rowan Shen：前端开发者 / AI 产品构建者。
 2. 补 2～3 个项目案例：项目类型、个人角色、解决的问题、交付结果。当前页面最大的提升空间是可信度，不是继续堆动效。
 3. 如果用户提供，加入 GitHub、LinkedIn 或作品链接；当前联系按钮仍使用页面源码中已有的 mailto，不在此文档暴露地址。
 4. 解决 SVG 浏览器缓存后，再决定是否需要微调 header 点阵强度和移动端导航。
-5. 用户确认最终版本后，再检查 GitHub Pages 发布状态并执行 commit/push。发布前不要把交接目录中的敏感信息带入仓库。
+5. 用户确认最终版本后，检查 GitHub Pages 发布状态。当前源码已经推送，但部署是否已完成仍需在 GitHub Pages 设置或 Actions 页面确认。
 
 ## 建议下一次调用的技能
 
@@ -89,4 +92,4 @@ Rowan Shen：前端开发者 / AI 产品构建者。
 
 ## 下一次开始建议
 
-先阅读本文件，再查看 `git status --short` 和 `assets/app.js`、`assets/css/`、`assets/motion.js`。不要从头重做页面，也不要覆盖当前未提交改动。优先根据用户最新反馈做小范围、可验证的修改。
+先阅读本文件，再查看 `git status --short` 和 `assets/app.js`、`assets/css/`、`assets/motion.js`。当前已同步到远程，不要覆盖已提交改动；优先根据用户最新反馈做小范围、可验证的修改。
