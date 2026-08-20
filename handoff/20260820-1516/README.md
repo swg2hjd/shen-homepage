@@ -50,7 +50,7 @@ Rowan Shen：前端开发者 / AI 产品构建者。
 
 当前分支：`main`
 
-最近提交：`7412e8e Refine personal homepage and remove test tooling`
+最近提交：`3b8159d Update handoff with repository sync status`
 
 本轮已完成清理、提交和 HTTPS 推送：
 
@@ -58,7 +58,8 @@ Rowan Shen：前端开发者 / AI 产品构建者。
 - 保留页面运行所需文件：`index.html`、`assets/`、`.gitignore`
 - 保留交接和实现原理文档：`handoff/`、`implementation-notes/`
 - 远程：`origin` 使用 HTTPS，已同步到 `origin/main`
-- 推送提交：`7412e8e`
+- 页面与清理提交：`7412e8e`
+- 最终 handoff 更新提交：`3b8159d`
 - 本次交接文档目录：`handoff/20260820-1516/`
 
 当前工作区在推送后应保持 clean。下一次开始时先运行 `git status --short` 和 `git log -1 --oneline` 确认状态，再继续修改。
