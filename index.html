@@ -1,13 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Shen Wg is a frontend developer and AI builder with 5+ years of experience across large-scale web projects."
+      content="Rowan Shen is a frontend developer and AI builder with 5+ years of experience across large-scale web projects."
     />
-    <title>Shen Wg | Frontend Developer & AI Builder</title>
+    <title>Rowan Shen | Frontend Developer & AI Builder</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2357f2d7'/%3E%3Ctext x='50%25' y='55%25' text-anchor='middle' font-family='Arial,sans-serif' font-size='20' font-weight='700' fill='%23081014'%3ERS%3C/text%3E%3C/svg%3E"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,92 +19,208 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/style.css" />
+    <script>
+      (() => {
+        let theme;
+        let lang;
+
+        try {
+          theme = localStorage.getItem("rowan-theme");
+          lang = localStorage.getItem("rowan-lang");
+        } catch {
+          theme = null;
+          lang = null;
+        }
+
+        if (theme === "dark" || theme === "light") {
+          document.documentElement.dataset.theme = theme;
+        }
+
+        if (lang === "en" || lang === "zh") {
+          document.documentElement.dataset.lang = lang;
+          document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+        }
+      })();
+    </script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="assets/app.js"></script>
+    <script defer src="assets/motion.js"></script>
   </head>
   <body>
     <main class="site-shell">
-      <nav class="topbar" aria-label="Primary navigation">
-        <a class="brand" href="#top" aria-label="Shen Wg homepage">
-          <span class="brand-mark">SW</span>
-          <span>Shen Wg</span>
+      <nav class="topbar" aria-label="Primary navigation" data-hero-reveal>
+        <a class="brand" href="#top" aria-label="Rowan Shen homepage">
+          <span class="brand-mark">RS</span>
+          <span data-i18n="brand.name">Rowan Shen</span>
         </a>
-        <div class="nav-links">
-          <a href="#work">Work</a>
-          <a href="#skills">Skills</a>
-          <a href="#contact">Contact</a>
+        <div class="topbar-actions">
+          <div class="nav-links">
+            <a href="#work" data-i18n="nav.work">Work</a>
+            <a href="#skills" data-i18n="nav.skills">Skills</a>
+            <a href="#contact" data-i18n="nav.contact">Contact</a>
+          </div>
+          <div class="language-control" data-language-control>
+            <button
+              class="control-button"
+              type="button"
+              data-lang-toggle
+              aria-label="Switch language"
+              title="Switch language"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-controls="language-menu"
+            >
+              <svg data-icon="language" aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 5h16" />
+                <path d="M9 5c.8 4.8 3 8.6 7 11" />
+                <path d="M15 5c-.8 4.8-3 8.6-7 11" />
+                <path d="M7 12h10" />
+                <path d="M5 20h6" />
+                <path d="M8 17v3" />
+                <path d="M16 17l3 3" />
+                <path d="M19 17l-3 3" />
+              </svg>
+            </button>
+            <div class="language-menu" id="language-menu" data-lang-menu role="menu" aria-label="Language options" hidden>
+              <button class="language-option" type="button" role="menuitemradio" data-lang-option="en" data-i18n="controls.english" aria-checked="true">English</button>
+              <button class="language-option" type="button" role="menuitemradio" data-lang-option="zh" data-i18n="controls.chinese" aria-checked="false">中文</button>
+            </div>
+          </div>
+          <button class="control-button" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme" data-state="dark">
+            <svg class="theme-icon theme-icon-sun" data-icon="sun" aria-hidden="true" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2" />
+              <path d="M12 20v2" />
+              <path d="M4.93 4.93l1.41 1.41" />
+              <path d="M17.66 17.66l1.41 1.41" />
+              <path d="M2 12h2" />
+              <path d="M20 12h2" />
+              <path d="M4.93 19.07l1.41-1.41" />
+              <path d="M17.66 6.34l1.41-1.41" />
+            </svg>
+            <svg class="theme-icon theme-icon-moon" data-icon="moon" aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M20 14.4A7.5 7.5 0 0 1 9.6 4a8.5 8.5 0 1 0 10.4 10.4Z" />
+            </svg>
+          </button>
         </div>
       </nav>
 
       <section class="hero" id="top">
         <div class="hero-copy">
-          <p class="eyebrow">Frontend Developer / AI Builder</p>
-          <h1>Building polished web experiences with product sense and AI fluency.</h1>
-          <p class="hero-text">
-            I am Shen Wg, a frontend-focused developer with 5+ years of
+          <p class="eyebrow" data-hero-reveal data-i18n="hero.eyebrow">Frontend Developer / AI Builder</p>
+          <h1 data-hero-reveal data-i18n="hero.title">Building polished web experiences with product sense and AI fluency.</h1>
+          <p class="hero-text" data-hero-reveal data-i18n="hero.body">
+            I am Rowan Shen, a frontend-focused developer with 5+ years of
             experience shipping interfaces for 10+ large-scale projects. I care
             about clean interaction, reliable delivery, and turning complex
             ideas into usable products.
           </p>
-          <div class="hero-actions">
-            <a class="button primary" href="mailto:137707189@qq.com">Email me</a>
-            <a class="button ghost" href="#work">View profile</a>
+          <div class="hero-actions" data-hero-reveal>
+            <a class="button primary" href="mailto:137707189@qq.com" data-i18n="hero.email">Email me</a>
+            <a class="button ghost" href="#work" data-i18n="hero.profile">View profile</a>
           </div>
         </div>
 
-        <aside class="signal-card" aria-label="Developer profile snapshot">
-          <img src="assets/ai-console.svg" alt="" class="console-art" />
+        <aside class="signal-card" aria-label="Developer profile snapshot" data-console-card>
+          <div class="console-visual">
+            <span class="console-scan" aria-hidden="true"></span>
+            <span class="console-orbit orbit-one" aria-hidden="true"></span>
+            <span class="console-orbit orbit-two" aria-hidden="true"></span>
+            <img src="assets/ai-console.svg" alt="" class="console-art console-art-dark" />
+            <img src="assets/ai-console-light.svg" alt="" class="console-art console-art-light" aria-hidden="true" />
+          </div>
           <div class="stat-grid">
             <div>
-              <strong>5+</strong>
-              <span>years frontend</span>
+              <strong class="stat-number" data-count-to="5" data-count-suffix="+">5+</strong>
+              <span data-i18n="stats.years">years frontend</span>
             </div>
             <div>
-              <strong>10+</strong>
-              <span>large-scale projects</span>
+              <strong class="stat-number" data-count-to="10" data-count-suffix="+">10+</strong>
+              <span data-i18n="stats.projects">large-scale projects</span>
             </div>
           </div>
         </aside>
       </section>
 
-      <section class="section intro" id="work">
-        <p class="section-kicker">Selected Focus</p>
+      <section class="section intro" id="work" data-section-reveal>
+        <p class="section-kicker" data-i18n="work.kicker">Selected Focus</p>
         <div class="section-grid">
-          <h2>Practical engineering for modern product teams.</h2>
+          <h2 data-i18n="work.title">Practical engineering for modern product teams.</h2>
           <div class="intro-copy">
-            <p>
+            <p data-i18n="work.bodyOne">
               My work spans responsive interfaces, component systems, complex
               business flows, and AI-assisted product experiments. I like teams
               that value clarity, velocity, and thoughtful user experience.
             </p>
-            <p>
-              Version one of this page keeps things simple: enough signal to
-              introduce who I am, what I do, and how to start a conversation.
+            <p data-i18n="work.bodyTwo">
+              I care about pages that feel sharp but still useful: clear
+              structure, smooth motion, readable copy, and details that make
+              the experience easier to trust.
             </p>
           </div>
         </div>
       </section>
 
-      <section class="section capability-panel" id="skills">
-        <div class="capability">
-          <span>01</span>
-          <h3>Frontend Architecture</h3>
-          <p>Reusable components, stateful product flows, performance-minded UI, and maintainable delivery habits.</p>
+      <section class="section capability-panel" id="skills" data-skills-section>
+        <div class="skills-heading" data-section-reveal>
+          <p class="section-kicker" data-i18n="skills.kicker">Capability System</p>
+          <h2 data-i18n="skills.title">Five capabilities I bring to product work.</h2>
         </div>
-        <div class="capability">
-          <span>02</span>
-          <h3>AI Product Building</h3>
-          <p>AI-assisted workflows, prompt-driven interfaces, automation ideas, and fast prototype-to-product cycles.</p>
-        </div>
-        <div class="capability">
-          <span>03</span>
-          <h3>Large Project Delivery</h3>
-          <p>Experience across complex systems where consistency, communication, and careful details matter.</p>
+        <div class="capability-track" data-capability-track>
+          <div class="capability-loop" data-capability-loop>
+            <div class="capability-set" data-capability-set>
+              <div class="capability">
+                <h3 data-i18n="skills.frontend.title">Frontend Architecture</h3>
+                <p data-i18n="skills.frontend.body">Reusable components, stateful product flows, performance-minded UI, and maintainable delivery habits.</p>
+              </div>
+              <div class="capability">
+                <h3 data-i18n="skills.ai.title">AI Product Building</h3>
+                <p data-i18n="skills.ai.body">AI-assisted workflows, prompt-driven interfaces, automation ideas, and fast prototype-to-product cycles.</p>
+              </div>
+              <div class="capability">
+                <h3 data-i18n="skills.delivery.title">Large Project Delivery</h3>
+                <p data-i18n="skills.delivery.body">Experience across complex systems where consistency, communication, and careful details matter.</p>
+              </div>
+              <div class="capability">
+                <h3 data-i18n="skills.product.title">Product Thinking</h3>
+                <p data-i18n="skills.product.body">Turning vague goals into clear user flows, useful priorities, and decisions a team can ship.</p>
+              </div>
+              <div class="capability">
+                <h3 data-i18n="skills.interaction.title">Interaction Craft</h3>
+                <p data-i18n="skills.interaction.body">Polishing states, motion, feedback, and edge cases so interfaces feel natural under real use.</p>
+              </div>
+            </div>
+            <div class="capability-set" data-capability-set aria-hidden="true">
+              <div class="capability">
+                <h3 data-i18n="skills.frontend.title">Frontend Architecture</h3>
+                <p data-i18n="skills.frontend.body">Reusable components, stateful product flows, performance-minded UI, and maintainable delivery habits.</p>
+              </div>
+              <div class="capability">
+                <h3 data-i18n="skills.ai.title">AI Product Building</h3>
+                <p data-i18n="skills.ai.body">AI-assisted workflows, prompt-driven interfaces, automation ideas, and fast prototype-to-product cycles.</p>
+              </div>
+              <div class="capability">
+                <h3 data-i18n="skills.delivery.title">Large Project Delivery</h3>
+                <p data-i18n="skills.delivery.body">Experience across complex systems where consistency, communication, and careful details matter.</p>
+              </div>
+              <div class="capability">
+                <h3 data-i18n="skills.product.title">Product Thinking</h3>
+                <p data-i18n="skills.product.body">Turning vague goals into clear user flows, useful priorities, and decisions a team can ship.</p>
+              </div>
+              <div class="capability">
+                <h3 data-i18n="skills.interaction.title">Interaction Craft</h3>
+                <p data-i18n="skills.interaction.body">Polishing states, motion, feedback, and edge cases so interfaces feel natural under real use.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="contact-band" id="contact">
+      <section class="contact-band" id="contact" data-section-reveal>
         <div>
-          <p class="section-kicker">Contact</p>
-          <h2>Open to thoughtful frontend and AI collaborations.</h2>
+          <p class="section-kicker" data-i18n="contact.kicker">Contact</p>
+          <h2 data-i18n="contact.title">Open to thoughtful frontend and AI collaborations.</h2>
         </div>
         <a class="mail-link" href="mailto:137707189@qq.com">137707189@qq.com</a>
       </section>

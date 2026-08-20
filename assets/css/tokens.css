@@ -1,0 +1,90 @@
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #081014;
+  --panel: #101b22;
+  --panel-soft: #14252d;
+  --text: #edf7f5;
+  --muted: #9fb5b2;
+  --line: rgba(221, 249, 245, 0.14);
+  --cyan: #57f2d7;
+  --blue: #67a7ff;
+  --amber: #f5c66e;
+  --mint-dark: #0b3b37;
+  --white: #ffffff;
+  --shadow: 0 28px 80px rgba(0, 0, 0, 0.36);
+  --page-background: #081014;
+  --grid-line: rgba(255, 255, 255, 0.035);
+  --topbar-bg: #081014;
+  --topbar-bg-mobile: #081014;
+  --topbar-border: rgba(221, 249, 245, 0.1);
+  --nav-bg: rgba(255, 255, 255, 0.04);
+  --nav-hover-bg: rgba(255, 255, 255, 0.07);
+  --menu-bg: #101b22;
+  --menu-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+  --button-ghost-bg: rgba(255, 255, 255, 0.05);
+  --surface-bg: rgba(255, 255, 255, 0.045);
+  --surface-strong-bg: rgba(255, 255, 255, 0.08);
+  --console-glow: rgba(87, 242, 215, 0.12);
+  --console-scan: linear-gradient(180deg, transparent 0%, rgba(87, 242, 215, 0.22) 48%, transparent 100%);
+  --contact-bg:
+    linear-gradient(135deg, rgba(87, 242, 215, 0.12), rgba(103, 167, 255, 0.08)),
+    var(--mint-dark);
+  --contact-border: rgba(87, 242, 215, 0.28);
+  --contact-glow: rgba(245, 198, 110, 0.2);
+  --capability-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    #111c22;
+  --capability-border: rgba(221, 249, 245, 0.16);
+  --capability-border-hover: rgba(218, 164, 67, 0.36);
+  --capability-highlight: rgba(218, 164, 67, 0.5);
+  --capability-glow: rgba(245, 198, 110, 0.055);
+  --capability-shadow: 0 18px 46px rgba(0, 0, 0, 0.2);
+  --capability-shadow-hover: 0 22px 54px rgba(0, 0, 0, 0.3);
+  --alt-capability-bg: linear-gradient(180deg, rgba(245, 198, 110, 0.07), rgba(255, 255, 255, 0.035));
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --ink: #071113;
+  --panel: #ffffff;
+  --panel-soft: #eef7f5;
+  --text: #0e1a1d;
+  --muted: #526468;
+  --line: rgba(7, 17, 19, 0.13);
+  --cyan: #087f72;
+  --blue: #296fd6;
+  --amber: #a46200;
+  --mint-dark: #dff4ef;
+  --white: #071113;
+  --shadow: 0 26px 70px rgba(35, 68, 72, 0.16);
+  --page-background: #f8fbf9;
+  --grid-line: rgba(7, 17, 19, 0.045);
+  --topbar-bg: #f8fbf9;
+  --topbar-bg-mobile: #f8fbf9;
+  --topbar-border: rgba(7, 17, 19, 0.11);
+  --nav-bg: rgba(7, 17, 19, 0.04);
+  --nav-hover-bg: rgba(8, 127, 114, 0.09);
+  --menu-bg: #ffffff;
+  --menu-shadow: 0 18px 42px rgba(35, 68, 72, 0.16);
+  --button-ghost-bg: rgba(255, 255, 255, 0.7);
+  --surface-bg: rgba(255, 255, 255, 0.78);
+  --surface-strong-bg: rgba(255, 255, 255, 0.94);
+  --console-glow: rgba(41, 111, 214, 0.1);
+  --console-scan: linear-gradient(180deg, transparent 0%, rgba(8, 127, 114, 0.18) 48%, transparent 100%);
+  --contact-bg:
+    linear-gradient(135deg, rgba(8, 127, 114, 0.08), rgba(41, 111, 214, 0.05)),
+    #eef8f5;
+  --contact-border: rgba(8, 127, 114, 0.18);
+  --contact-glow: rgba(164, 98, 0, 0.1);
+  --capability-bg:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(237, 247, 245, 0.86)),
+    #f7fbfa;
+  --capability-border: rgba(7, 17, 19, 0.14);
+  --capability-border-hover: rgba(145, 82, 0, 0.32);
+  --capability-highlight: rgba(145, 82, 0, 0.42);
+  --capability-glow: rgba(164, 98, 0, 0.045);
+  --capability-shadow: 0 16px 34px rgba(35, 68, 72, 0.07);
+  --capability-shadow-hover: 0 20px 44px rgba(35, 68, 72, 0.12);
+  --alt-capability-bg: linear-gradient(180deg, rgba(164, 98, 0, 0.08), rgba(255, 255, 255, 0.74));
+}

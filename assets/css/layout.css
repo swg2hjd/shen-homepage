@@ -1,0 +1,119 @@
+.site-shell {
+  width: min(1160px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+[data-hero-reveal],
+[data-section-reveal],
+[data-console-card],
+.capability {
+  will-change: transform, opacity;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 84px;
+  width: 100vw;
+  margin-left: calc((100% - 100vw) / 2);
+  padding: 14px max(20px, calc((100vw - 1160px) / 2));
+  border-bottom: 1px solid var(--topbar-border);
+  background-image: radial-gradient(transparent 1px, var(--topbar-bg) 1px);
+  background-size: 4px 4px;
+  backdrop-filter: saturate(50%) blur(4px);
+  -webkit-backdrop-filter: saturate(50%) blur(4px);
+}
+
+.topbar-actions,
+.brand,
+.nav-links,
+.language-control {
+  display: flex;
+  align-items: center;
+}
+
+.topbar-actions {
+  gap: 10px;
+}
+
+.language-control {
+  position: relative;
+}
+
+.language-control::after {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: max(100%, 144px);
+  height: 10px;
+  content: "";
+}
+
+.brand {
+  gap: 12px;
+  font-weight: 800;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.76fr);
+  gap: 56px;
+  align-items: center;
+  min-height: auto;
+  padding: 42px 0 28px;
+}
+
+.intro {
+  padding-top: 44px;
+}
+
+.section {
+  padding: 72px 0;
+  border-top: 1px solid var(--line);
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1fr;
+  gap: 58px;
+  align-items: start;
+}
+
+.capability-panel {
+  overflow: visible;
+}
+
+.skills-heading {
+  max-width: 760px;
+  margin-bottom: 32px;
+}
+
+.capability-track {
+  --capability-set-width: min(1160px, calc(100vw - 40px));
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+}
+
+.capability-loop {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  will-change: transform;
+}
+
+.capability-set {
+  display: flex;
+  flex: 0 0 var(--capability-set-width);
+  gap: 16px;
+}
+
+.capability-set .capability {
+  flex: 1 1 0;
+}
