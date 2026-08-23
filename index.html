@@ -48,6 +48,7 @@
     <script defer src="assets/motion.js"></script>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"><span data-scroll-progress></span></div>
     <main class="site-shell">
       <nav class="topbar" aria-label="Primary navigation" data-hero-reveal>
         <a class="brand" href="#top" aria-label="Rowan Shen homepage">
@@ -122,7 +123,7 @@
           </div>
         </div>
 
-        <aside class="signal-card" aria-label="Developer profile snapshot" data-console-card>
+        <aside class="signal-card" aria-label="Developer profile snapshot" data-console-card data-pointer-tilt>
           <div class="console-visual">
             <span class="console-scan" aria-hidden="true"></span>
             <span class="console-orbit orbit-one" aria-hidden="true"></span>
@@ -162,56 +163,167 @@
         </div>
       </section>
 
-      <section class="section capability-panel" id="skills" data-skills-section>
-        <div class="skills-heading" data-section-reveal>
-          <p class="section-kicker" data-i18n="skills.kicker">Capability System</p>
-          <h2 data-i18n="skills.title">Five capabilities I bring to product work.</h2>
+      <section class="section project-panel" id="skills" data-project-section>
+        <div class="projects-heading" data-section-reveal>
+          <div>
+            <p class="section-kicker" data-i18n="projects.kicker">Selected Work</p>
+            <h2 data-i18n="projects.title">Selected projects, shaped around clear product outcomes.</h2>
+          </div>
+          <div class="project-controls">
+            <button class="project-arrow" type="button" data-project-prev data-i18n-aria="projects.previous" aria-label="Previous project" title="Previous project">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M19 12H5" />
+                <path d="m11 6-6 6 6 6" />
+              </svg>
+            </button>
+            <span class="project-counter" aria-live="polite">
+              <strong data-project-current>01</strong>
+              <span>/</span>
+              <span data-project-total>05</span>
+            </span>
+            <button class="project-arrow" type="button" data-project-next data-i18n-aria="projects.next" aria-label="Next project" title="Next project">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M5 12h14" />
+                <path d="m13 6 6 6-6 6" />
+              </svg>
+            </button>
+          </div>
         </div>
+
+        <div class="project-stage" data-project-stage data-section-reveal tabindex="0" role="region" data-i18n-aria="projects.stageLabel" aria-label="Project showcase">
+          <div class="project-stack" data-project-stack>
+            <article class="project-card" data-project-card data-project-index="0">
+              <div class="project-visual project-visual-one" aria-hidden="true">
+                <span class="project-visual-kicker">ATLAS / 01</span>
+                <span class="project-visual-title">WORKFLOW CLARITY</span>
+                <span class="project-visual-orb"></span>
+              </div>
+              <div class="project-card-content">
+                <div class="project-card-meta">
+                  <span data-i18n="projects.one.type">Product interface</span>
+                  <span class="project-card-status">Concept</span>
+                </div>
+                <h3 data-i18n="projects.one.title">Atlas Workspace</h3>
+                <p data-i18n="projects.one.body">A focused dashboard concept that turns complex operations into a clear daily flow.</p>
+                <a class="project-card-link" href="#contact" data-i18n="projects.cta">Discuss a similar build</a>
+              </div>
+            </article>
+
+            <article class="project-card" data-project-card data-project-index="1">
+              <div class="project-visual project-visual-two" aria-hidden="true">
+                <span class="project-visual-kicker">SIGNAL / 02</span>
+                <span class="project-visual-title">ASSISTED DECISIONS</span>
+                <span class="project-visual-orb"></span>
+              </div>
+              <div class="project-card-content">
+                <div class="project-card-meta">
+                  <span data-i18n="projects.two.type">AI workflow</span>
+                  <span class="project-card-status">Concept</span>
+                </div>
+                <h3 data-i18n="projects.two.title">Signal Copilot</h3>
+                <p data-i18n="projects.two.body">An AI-assisted workspace concept for turning rough input into useful next steps.</p>
+                <a class="project-card-link" href="#contact" data-i18n="projects.cta">Discuss a similar build</a>
+              </div>
+            </article>
+
+            <article class="project-card" data-project-card data-project-index="2">
+              <div class="project-visual project-visual-three" aria-hidden="true">
+                <span class="project-visual-kicker">FLOWBASE / 03</span>
+                <span class="project-visual-title">SYSTEMS THAT SCALE</span>
+                <span class="project-visual-orb"></span>
+              </div>
+              <div class="project-card-content">
+                <div class="project-card-meta">
+                  <span data-i18n="projects.three.type">Platform system</span>
+                  <span class="project-card-status">Concept</span>
+                </div>
+                <h3 data-i18n="projects.three.title">Flowbase Platform</h3>
+                <p data-i18n="projects.three.body">A component-led product foundation designed for consistent teams and faster delivery.</p>
+                <a class="project-card-link" href="#contact" data-i18n="projects.cta">Discuss a similar build</a>
+              </div>
+            </article>
+
+            <article class="project-card" data-project-card data-project-index="3">
+              <div class="project-visual project-visual-four" aria-hidden="true">
+                <span class="project-visual-kicker">NORTHSTAR / 04</span>
+                <span class="project-visual-title">TRUST IN MOTION</span>
+                <span class="project-visual-orb"></span>
+              </div>
+              <div class="project-card-content">
+                <div class="project-card-meta">
+                  <span data-i18n="projects.four.type">Responsive experience</span>
+                  <span class="project-card-status">Concept</span>
+                </div>
+                <h3 data-i18n="projects.four.title">Northstar Commerce</h3>
+                <p data-i18n="projects.four.body">A responsive commerce journey balancing discovery, trust, and decisive interaction.</p>
+                <a class="project-card-link" href="#contact" data-i18n="projects.cta">Discuss a similar build</a>
+              </div>
+            </article>
+
+            <article class="project-card" data-project-card data-project-index="4">
+              <div class="project-visual project-visual-five" aria-hidden="true">
+                <span class="project-visual-kicker">MOTION / 05</span>
+                <span class="project-visual-title">DETAILS THAT LAND</span>
+                <span class="project-visual-orb"></span>
+              </div>
+              <div class="project-card-content">
+                <div class="project-card-meta">
+                  <span data-i18n="projects.five.type">Interaction study</span>
+                  <span class="project-card-status">Concept</span>
+                </div>
+                <h3 data-i18n="projects.five.title">Motion Notes</h3>
+                <p data-i18n="projects.five.body">A small interaction study exploring calm transitions, feedback, and meaningful detail.</p>
+                <a class="project-card-link" href="#contact" data-i18n="projects.cta">Discuss a similar build</a>
+              </div>
+            </article>
+          </div>
+        </div>
+
         <div class="capability-track" data-capability-track>
           <div class="capability-loop" data-capability-loop>
             <div class="capability-set" data-capability-set>
-              <div class="capability">
+              <article class="capability">
                 <h3 data-i18n="skills.frontend.title">Frontend Architecture</h3>
                 <p data-i18n="skills.frontend.body">Reusable components, stateful product flows, performance-minded UI, and maintainable delivery habits.</p>
-              </div>
-              <div class="capability">
+              </article>
+              <article class="capability">
                 <h3 data-i18n="skills.ai.title">AI Product Building</h3>
                 <p data-i18n="skills.ai.body">AI-assisted workflows, prompt-driven interfaces, automation ideas, and fast prototype-to-product cycles.</p>
-              </div>
-              <div class="capability">
+              </article>
+              <article class="capability">
                 <h3 data-i18n="skills.delivery.title">Large Project Delivery</h3>
                 <p data-i18n="skills.delivery.body">Experience across complex systems where consistency, communication, and careful details matter.</p>
-              </div>
-              <div class="capability">
+              </article>
+              <article class="capability">
                 <h3 data-i18n="skills.product.title">Product Thinking</h3>
                 <p data-i18n="skills.product.body">Turning vague goals into clear user flows, useful priorities, and decisions a team can ship.</p>
-              </div>
-              <div class="capability">
+              </article>
+              <article class="capability">
                 <h3 data-i18n="skills.interaction.title">Interaction Craft</h3>
                 <p data-i18n="skills.interaction.body">Polishing states, motion, feedback, and edge cases so interfaces feel natural under real use.</p>
-              </div>
+              </article>
             </div>
             <div class="capability-set" data-capability-set aria-hidden="true">
-              <div class="capability">
+              <article class="capability">
                 <h3 data-i18n="skills.frontend.title">Frontend Architecture</h3>
                 <p data-i18n="skills.frontend.body">Reusable components, stateful product flows, performance-minded UI, and maintainable delivery habits.</p>
-              </div>
-              <div class="capability">
+              </article>
+              <article class="capability">
                 <h3 data-i18n="skills.ai.title">AI Product Building</h3>
                 <p data-i18n="skills.ai.body">AI-assisted workflows, prompt-driven interfaces, automation ideas, and fast prototype-to-product cycles.</p>
-              </div>
-              <div class="capability">
+              </article>
+              <article class="capability">
                 <h3 data-i18n="skills.delivery.title">Large Project Delivery</h3>
                 <p data-i18n="skills.delivery.body">Experience across complex systems where consistency, communication, and careful details matter.</p>
-              </div>
-              <div class="capability">
+              </article>
+              <article class="capability">
                 <h3 data-i18n="skills.product.title">Product Thinking</h3>
                 <p data-i18n="skills.product.body">Turning vague goals into clear user flows, useful priorities, and decisions a team can ship.</p>
-              </div>
-              <div class="capability">
+              </article>
+              <article class="capability">
                 <h3 data-i18n="skills.interaction.title">Interaction Craft</h3>
                 <p data-i18n="skills.interaction.body">Polishing states, motion, feedback, and edge cases so interfaces feel natural under real use.</p>
-              </div>
+              </article>
             </div>
           </div>
         </div>

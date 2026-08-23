@@ -47,23 +47,42 @@
           "My work spans responsive interfaces, component systems, complex business flows, and AI-assisted product experiments. I like teams that value clarity, velocity, and thoughtful user experience.",
         "work.bodyTwo":
           "I care about pages that feel sharp but still useful: clear structure, smooth motion, readable copy, and details that make the experience easier to trust.",
-        "skills.kicker": "Capability System",
-        "skills.title": "Five capabilities I bring to product work.",
+        "projects.kicker": "Selected Work",
+        "projects.title": "Selected projects, shaped around clear product outcomes.",
+        "projects.previous": "Previous project",
+        "projects.next": "Next project",
+        "projects.stageLabel": "Project showcase",
+        "projects.cta": "Discuss a similar build",
         "skills.frontend.title": "Frontend Architecture",
-        "skills.frontend.body":
-          "Reusable components, stateful product flows, performance-minded UI, and maintainable delivery habits.",
+        "skills.frontend.body": "Reusable components, stateful product flows, performance-minded UI, and maintainable delivery habits.",
         "skills.ai.title": "AI Product Building",
-        "skills.ai.body":
-          "AI-assisted workflows, prompt-driven interfaces, automation ideas, and fast prototype-to-product cycles.",
+        "skills.ai.body": "AI-assisted workflows, prompt-driven interfaces, automation ideas, and fast prototype-to-product cycles.",
         "skills.delivery.title": "Large Project Delivery",
-        "skills.delivery.body":
-          "Experience across complex systems where consistency, communication, and careful details matter.",
+        "skills.delivery.body": "Experience across complex systems where consistency, communication, and careful details matter.",
         "skills.product.title": "Product Thinking",
-        "skills.product.body":
-          "Turning vague goals into clear user flows, useful priorities, and decisions a team can ship.",
+        "skills.product.body": "Turning vague goals into clear user flows, useful priorities, and decisions a team can ship.",
         "skills.interaction.title": "Interaction Craft",
-        "skills.interaction.body":
-          "Polishing states, motion, feedback, and edge cases so interfaces feel natural under real use.",
+        "skills.interaction.body": "Polishing states, motion, feedback, and edge cases so interfaces feel natural under real use.",
+        "projects.one.type": "Product interface",
+        "projects.one.title": "Atlas Workspace",
+        "projects.one.body":
+          "A focused dashboard concept that turns complex operations into a clear daily flow.",
+        "projects.two.type": "AI workflow",
+        "projects.two.title": "Signal Copilot",
+        "projects.two.body":
+          "An AI-assisted workspace concept for turning rough input into useful next steps.",
+        "projects.three.type": "Platform system",
+        "projects.three.title": "Flowbase Platform",
+        "projects.three.body":
+          "A component-led product foundation designed for consistent teams and faster delivery.",
+        "projects.four.type": "Responsive experience",
+        "projects.four.title": "Northstar Commerce",
+        "projects.four.body":
+          "A responsive commerce journey balancing discovery, trust, and decisive interaction.",
+        "projects.five.type": "Interaction study",
+        "projects.five.title": "Motion Notes",
+        "projects.five.body":
+          "A small interaction study exploring calm transitions, feedback, and meaningful detail.",
         "contact.kicker": "Contact",
         "contact.title": "Open to thoughtful frontend and AI collaborations.",
         "controls.english": "English",
@@ -97,8 +116,12 @@
         "work.bodyOne":
           "我的工作覆盖响应式界面、组件系统、复杂业务流程和 AI 辅助产品实验。我喜欢与重视清晰表达、交付速度和用户体验细节的团队协作。",
         "work.bodyTwo": "我更在意页面是否既有质感又好用：结构清晰、动效顺滑、文案可读，细节能让体验更值得信任。",
-        "skills.kicker": "能力系统",
-        "skills.title": "我带入产品工作的五项能力。",
+        "projects.kicker": "项目预览",
+        "projects.title": "用清晰的产品结果，呈现我参与的项目。",
+        "projects.previous": "上一个项目",
+        "projects.next": "下一个项目",
+        "projects.stageLabel": "项目展示",
+        "projects.cta": "聊聊类似项目",
         "skills.frontend.title": "前端架构",
         "skills.frontend.body": "可复用组件、有状态的产品流程、性能意识，以及可维护的交付习惯。",
         "skills.ai.title": "AI 产品构建",
@@ -109,6 +132,21 @@
         "skills.product.body": "把模糊目标整理成清晰的用户路径、优先级和可落地的产品决策。",
         "skills.interaction.title": "交互细节",
         "skills.interaction.body": "打磨状态、动效、反馈与边界场景，让界面在真实使用中自然可靠。",
+        "projects.one.type": "产品界面",
+        "projects.one.title": "Atlas 工作台",
+        "projects.one.body": "一个聚焦效率的仪表盘概念，把复杂操作整理成清晰的日常工作流。",
+        "projects.two.type": "AI 工作流",
+        "projects.two.title": "Signal Copilot",
+        "projects.two.body": "一个 AI 辅助工作空间概念，把模糊输入整理成有用的下一步行动。",
+        "projects.three.type": "平台系统",
+        "projects.three.title": "Flowbase 平台",
+        "projects.three.body": "以组件系统为基础的产品底座，帮助团队保持一致并更快交付。",
+        "projects.four.type": "响应式体验",
+        "projects.four.title": "Northstar Commerce",
+        "projects.four.body": "一个平衡探索、信任与明确行动的响应式电商体验概念。",
+        "projects.five.type": "交互研究",
+        "projects.five.title": "Motion Notes",
+        "projects.five.body": "一组小型交互实验，探索克制的过渡、反馈和有意义的细节。",
         "contact.kicker": "联系",
         "contact.title": "欢迎交流前端与 AI 方向的认真合作。",
         "controls.english": "English",
@@ -156,6 +194,14 @@
 
       if (value) {
         node.textContent = value;
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach((node) => {
+      const value = dictionary.text[node.dataset.i18nAria];
+
+      if (value) {
+        node.setAttribute("aria-label", value);
       }
     });
 
