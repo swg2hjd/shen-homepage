@@ -8,7 +8,144 @@
   gsap.registerPlugin(ScrollTrigger);
 
   let motionMedia;
+  let motionBuildFrame;
+  let scrollRestoreFrame;
+  let hasBuiltScrollMotion = false;
+  const scrollStorageKey = "rowan-reload-scroll-y";
+  const navigationType = performance.getEntriesByType("navigation")[0]?.type;
+  let reloadScrollY = 0;
 
+  try {
+    reloadScrollY = navigationType === "reload"
+      ? Number.parseFloat(sessionStorage.getItem(scrollStorageKey)) || 0
+      : 0;
+  } catch {
+    reloadScrollY = 0;
+  }
+
+  window.addEventListener("pagehide", () => {
+    try {
+      sessionStorage.setItem(scrollStorageKey, String(window.scrollY));
+    } catch {
+      // Storage can be unavailable in privacy-restricted contexts.
+    }
+  });
+
+
+  function createOpeningReveal(gsap, ScrollTrigger, { reduceMotion, desktop, mobile }) {
+    const root = document.documentElement;
+    const sequence = document.querySelector("[data-opening-sequence]");
+    const stage = document.querySelector("[data-opening-stage]");
+    const site = document.querySelector("[data-site-content]");
+    const copy = document.querySelector("[data-opening-copy]");
+    const title = document.querySelector("[data-opening-title]");
+    const role = document.querySelector("[data-opening-role]");
+    const cue = document.querySelector("[data-opening-cue]");
+    const cueLine = cue?.querySelector("span");
+    const hero = document.querySelector(".hero");
+    const heroItems = Array.from(document.querySelectorAll(".hero-copy > *"));
+    const signalCard = document.querySelector("[data-console-card]");
+    const nav = document.querySelector(".topbar");
+
+    if (!sequence || !stage || !site || !copy || !title || !role || !cue || !hero || !signalCard || !nav) {
+      return null;
+    }
+
+    root.classList.remove("is-opening-skipped");
+
+    if (reduceMotion) {
+      root.dataset.reducedMotion = "true";
+      gsap.set([site, stage, hero, nav, copy, ...heroItems, signalCard], { clearProps: "all" });
+
+      return {
+        destroy() {
+          delete root.dataset.reducedMotion;
+        }
+      };
+    }
+
+    delete root.dataset.reducedMotion;
+    root.classList.add("is-motion-ready");
+
+    gsap.set(nav, { autoAlpha: 0, y: -18, pointerEvents: "none" });
+
+    const cueTween = cueLine
+      ? gsap.fromTo(
+          cueLine,
+          { yPercent: -120 },
+          { yPercent: 260, duration: 1.45, repeat: -1, ease: "none" }
+        )
+      : null;
+
+    const timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: sequence,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: mobile ? 0.45 : 0.8,
+        invalidateOnRefresh: true
+      }
+    });
+
+    timeline
+      .to(title, { scale: 0.86, yPercent: -26, autoAlpha: 0.18, duration: 0.38 }, 0)
+      .to(role, { y: 34, autoAlpha: 0, duration: 0.26 }, 0.08)
+      .to(cue, { autoAlpha: 0, scaleY: 0.4, duration: 0.2 }, 0)
+      .to(hero, {
+        clipPath: "inset(0% 0% round 0px)",
+        scale: 1,
+        duration: 0.68,
+        ease: "none"
+      }, 0.14)
+      .fromTo(
+        heroItems,
+        { autoAlpha: 0, y: 24 },
+        { autoAlpha: 1, y: 0, stagger: 0.08, duration: 0.22, ease: "power2.out" },
+        0.62
+      )
+      .fromTo(
+        signalCard,
+        {
+          autoAlpha: 0,
+          y: 30,
+          scale: 0.96,
+          rotationX: desktop ? -6 : 0
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          rotationX: 0,
+          duration: 0.26,
+          ease: "power2.out"
+        },
+        0.66
+      )
+      .to(stage, { autoAlpha: 0, duration: 0.22, ease: "none" }, 0.74)
+      .to(nav, { autoAlpha: 1, y: 0, pointerEvents: "auto", duration: 0.2 }, 0.8);
+
+    const onAnchorClick = (event) => {
+      const link = event.target.closest('a[href^="#"]');
+
+      if (link && link.getAttribute("href") !== "#top") {
+        timeline.progress(1);
+      }
+    };
+
+    document.addEventListener("click", onAnchorClick);
+
+    return {
+      destroy() {
+        document.removeEventListener("click", onAnchorClick);
+        cueTween?.kill();
+        timeline.scrollTrigger?.kill();
+        timeline.kill();
+        gsap.set([stage, hero, copy, title, role, cue, nav, ...heroItems, signalCard], {
+          clearProps: "all"
+        });
+      }
+    };
+  }
 
   function createPointerTilt(gsap, { reduceMotion }) {
     const targets = Array.from(document.querySelectorAll("[data-pointer-tilt]"));
@@ -331,6 +468,52 @@
   }
 
   function rebuildScrollMotion() {
+    const root = document.documentElement;
+    const isInitialBuild = !hasBuiltScrollMotion;
+    const preservedScrollY = isInitialBuild && reloadScrollY > 1
+      ? reloadScrollY
+      : window.scrollY;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    const deepLinkId = isInitialBuild && window.location.hash && window.location.hash !== "#top"
+      ? decodeURIComponent(window.location.hash.slice(1))
+      : "";
+    let hasRestoredScroll = false;
+
+    hasBuiltScrollMotion = true;
+    root.style.scrollBehavior = "auto";
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+
+    const restoreScrollPosition = () => {
+      if (hasRestoredScroll) {
+        return;
+      }
+
+      let targetScrollY = preservedScrollY;
+      const deepLinkTarget = deepLinkId ? document.getElementById(deepLinkId) : null;
+
+      if (targetScrollY <= 1 && deepLinkTarget) {
+        const scrollMargin = Number.parseFloat(getComputedStyle(deepLinkTarget).scrollMarginTop) || 0;
+        targetScrollY = deepLinkTarget.getBoundingClientRect().top - scrollMargin;
+      }
+
+      window.scrollTo({
+        top: Math.max(0, targetScrollY),
+        left: 0,
+        behavior: "instant"
+      });
+      ScrollTrigger.update();
+      root.style.scrollBehavior = previousScrollBehavior;
+      hasRestoredScroll = true;
+    };
+
+    const scheduleScrollRestore = () => {
+      cancelAnimationFrame(scrollRestoreFrame);
+      scrollRestoreFrame = requestAnimationFrame(restoreScrollPosition);
+    };
+
+    cancelAnimationFrame(motionBuildFrame);
+    cancelAnimationFrame(scrollRestoreFrame);
+    motionBuildFrame = requestAnimationFrame(() => {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill(true));
     motionMedia?.revert();
     motionMedia = gsap.matchMedia();
@@ -344,6 +527,7 @@
       (context) => {
       const { reduceMotion, desktop, mobile } = context.conditions;
 
+      const openingReveal = createOpeningReveal(gsap, ScrollTrigger, { reduceMotion, desktop, mobile });
       const projectSlider = createProjectSlider(gsap, { reduceMotion, mobile });
       const capabilityMarquee = createCapabilityMarquee(gsap, { reduceMotion });
       const pointerTilt = createPointerTilt(gsap, { reduceMotion });
@@ -352,7 +536,9 @@
         gsap.set("[data-hero-reveal], [data-section-reveal], [data-console-card]", {
           clearProps: "all"
         });
+        scheduleScrollRestore();
         return () => {
+          openingReveal?.destroy();
           projectSlider?.destroy();
           capabilityMarquee?.destroy();
           pointerTilt?.destroy();
@@ -375,27 +561,6 @@
           }
         });
       }
-
-      gsap
-        .timeline()
-        .from("[data-hero-reveal]", {
-          autoAlpha: 0,
-          y: 28,
-          stagger: 0.09,
-          duration: 0.72
-        })
-        .from(
-          "[data-console-card]",
-          {
-            autoAlpha: 0,
-            y: 34,
-            scale: 0.96,
-            rotationX: desktop ? -8 : 0,
-            transformOrigin: "50% 70%",
-            duration: 0.9
-          },
-          "<0.16"
-        );
 
       gsap.to(".console-scan", {
         yPercent: 145,
@@ -453,31 +618,216 @@
 
       const sectionRevealAnimations = [];
 
-      gsap.utils.toArray("[data-section-reveal]").forEach((section, index) => {
-        const direction = index % 2 === 0 ? 1 : -1;
+      gsap.utils.toArray("[data-section-reveal]").forEach((section) => {
+        const kind = section.dataset.revealKind || "default";
+        let frame = Array.from(section.children).find((child) => child.classList.contains("motion-reveal-frame"));
+
+        if (!frame) {
+          frame = document.createElement("span");
+          frame.className = "motion-reveal-frame";
+          frame.setAttribute("aria-hidden", "true");
+          section.append(frame);
+        }
+
+        const targetGroups = [];
+        const addTargets = (targets) => {
+          const items = Array.from(targets || []).filter(Boolean);
+
+          if (items.length > 0) {
+            targetGroups.push(...items);
+          }
+
+          return items;
+        };
+
+        const kicker = section.querySelector(":scope > .section-kicker");
+        const heading = section.querySelector("h2");
+        const fromState = {
+          autoAlpha: 0.08,
+          clipPath: "inset(42% 36% round 8px)",
+          scale: mobile ? 0.95 : 0.9,
+          y: mobile ? 24 : 42,
+          rotationX: mobile ? 0 : -8,
+          transformPerspective: 1000,
+          transformOrigin: "50% 50%"
+        };
+
+        if (kind === "heading") {
+          Object.assign(fromState, {
+            clipPath: "inset(0% 48% round 8px)",
+            scale: 0.98,
+            y: 18,
+            rotationX: 0
+          });
+        }
+
+        if (kind === "project") {
+          Object.assign(fromState, {
+            clipPath: "inset(44% 42% round 8px)",
+            scale: mobile ? 0.92 : 0.84,
+            y: mobile ? 30 : 56,
+            rotationX: mobile ? 0 : -12
+          });
+        }
+
+        if (kind === "capabilities") {
+          Object.assign(fromState, {
+            clipPath: "inset(34% 4% round 8px)",
+            scale: 0.96,
+            y: 26,
+            rotationX: 0
+          });
+        }
+
+        if (section.dataset.motionRevealed === "true") {
+          gsap.set(section, { clearProps: "transform,opacity,visibility,clipPath,perspective" });
+          gsap.set(frame, { autoAlpha: 0 });
+          return;
+        }
+
         const reveal = gsap.timeline({ paused: true });
 
         reveal
-          .from(section, {
-            clipPath: "inset(0 0 10% 0)",
-            immediateRender: false,
-            duration: 0.82,
-            ease: "power3.inOut"
-          })
-          .from(section.children, {
-            autoAlpha: 0,
-            x: direction * 18,
-            y: 24,
-            scale: 0.99,
-            immediateRender: false,
-            duration: 0.66,
-            stagger: 0.1,
-            ease: "power3.out"
-          }, "-=0.42");
+          .fromTo(
+            section,
+            fromState,
+            {
+              autoAlpha: 1,
+              clipPath: "inset(0% 0% round 0px)",
+              scale: 1,
+              y: 0,
+              rotationX: 0,
+              transformPerspective: 1000,
+              duration: kind === "project" || kind === "contact" ? 1.08 : 0.92,
+              ease: "expo.out",
+              immediateRender: false
+            },
+            0
+          )
+          .fromTo(
+            frame,
+            { autoAlpha: 0, scaleX: 0.14, scaleY: 0.5 },
+            { autoAlpha: 0.92, scaleX: 1, scaleY: 1, duration: 0.44, ease: "expo.out" },
+            0.02
+          )
+          .to(frame, { autoAlpha: 0, duration: 0.34, ease: "power2.out" }, 0.54);
+
+        if (kind === "split") {
+          const copy = section.querySelector(".intro-copy");
+          const paragraphs = addTargets(copy?.children);
+          addTargets([kicker, heading]);
+
+          reveal
+            .fromTo(kicker, { autoAlpha: 0, x: -34 }, { autoAlpha: 1, x: 0, duration: 0.42 }, 0.2)
+            .fromTo(
+              heading,
+              { autoAlpha: 0, y: 58, rotationX: mobile ? 0 : -14, transformOrigin: "50% 100%" },
+              { autoAlpha: 1, y: 0, rotationX: 0, duration: 0.72, ease: "back.out(1.35)" },
+              0.2
+            )
+            .fromTo(
+              paragraphs,
+              { autoAlpha: 0, x: mobile ? 0 : 38, y: 26 },
+              { autoAlpha: 1, x: 0, y: 0, duration: 0.58, stagger: 0.1, ease: "power3.out" },
+              0.34
+            );
+        }
+
+        if (kind === "heading") {
+          const lead = section.querySelector(":scope > div:first-child");
+          const leadItems = addTargets(lead?.children);
+          const controls = addTargets([section.querySelector(".project-controls")]);
+
+          reveal
+            .fromTo(
+              leadItems,
+              { autoAlpha: 0, y: 42 },
+              { autoAlpha: 1, y: 0, duration: 0.62, stagger: 0.1, ease: "back.out(1.25)" },
+              0.18
+            )
+            .fromTo(
+              controls,
+              { autoAlpha: 0, scale: 0.62, rotation: mobile ? 0 : -7 },
+              { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.56, ease: "back.out(1.8)" },
+              0.36
+            );
+        }
+
+        if (kind === "project") {
+          const stack = addTargets([section.querySelector("[data-project-stack]")]);
+
+          reveal.fromTo(
+            stack,
+            { autoAlpha: 0, y: mobile ? 34 : 70, scale: 0.9, rotationX: mobile ? 0 : -8 },
+            { autoAlpha: 1, y: 0, scale: 1, rotationX: 0, duration: 0.82, ease: "back.out(1.45)" },
+            0.28
+          );
+        }
+
+        if (kind === "capabilities") {
+          const cards = addTargets(section.querySelectorAll(".capability"));
+
+          reveal.fromTo(
+            cards,
+            {
+              autoAlpha: 0,
+              y: mobile ? 38 : 68,
+              scale: 0.84,
+              rotationY: (index) => (mobile ? 0 : index % 2 === 0 ? -9 : 9)
+            },
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              rotationY: 0,
+              duration: 0.66,
+              stagger: { each: 0.045, from: "center" },
+              ease: "back.out(1.55)"
+            },
+            0.22
+          );
+        }
+
+        if (kind === "contact") {
+          const copyItems = addTargets(section.querySelectorAll(".contact-copy > *"));
+          const channelItems = addTargets(section.querySelectorAll(".contact-channel > *"));
+          const signals = addTargets(section.querySelectorAll(".contact-signal"));
+
+          reveal
+            .fromTo(
+              copyItems,
+              { autoAlpha: 0, x: mobile ? 0 : -48, y: 26 },
+              { autoAlpha: 1, x: 0, y: 0, duration: 0.62, stagger: 0.08, ease: "power3.out" },
+              0.22
+            )
+            .fromTo(
+              channelItems,
+              { autoAlpha: 0, x: mobile ? 0 : 52, scale: 0.9 },
+              { autoAlpha: 1, x: 0, scale: 1, duration: 0.62, stagger: 0.1, ease: "back.out(1.45)" },
+              0.34
+            )
+            .fromTo(
+              signals,
+              { autoAlpha: 0, scale: 0.2 },
+              { autoAlpha: 1, scale: 1, duration: 0.72, stagger: 0.12, ease: "back.out(1.8)" },
+              0.38
+            );
+        }
+
+        reveal.eventCallback("onComplete", () => {
+          section.dataset.motionRevealed = "true";
+          gsap.set(section, { clearProps: "transform,opacity,visibility,clipPath,perspective" });
+
+          if (targetGroups.length > 0) {
+            gsap.set(targetGroups, { clearProps: "transform,opacity,visibility" });
+          }
+
+          gsap.set(frame, { autoAlpha: 0 });
+        });
 
         const trigger = ScrollTrigger.create({
           trigger: section,
-          start: "top 78%",
+          start: "top 80%",
           animation: reveal,
           once: true
         });
@@ -490,25 +840,30 @@
       });
 
       ScrollTrigger.refresh();
+      scheduleScrollRestore();
 
       sectionRevealAnimations.forEach(({ element, reveal, trigger }) => {
-        const bounds = element?.getBoundingClientRect();
-        const isPartiallyVisible = bounds && bounds.top < window.innerHeight && bounds.bottom > 0;
+        const bounds = element.getBoundingClientRect();
+        const isPartiallyVisible = bounds.top < window.innerHeight && bounds.bottom > 0;
         const hasPassedTrigger = window.scrollY >= trigger.start;
 
-        if (isPartiallyVisible || hasPassedTrigger) {
+        if (isPartiallyVisible) {
           trigger.kill(false);
-          reveal.restart();
+          reveal.play(0);
+        } else if (hasPassedTrigger) {
+          trigger.kill(false);
+          reveal.progress(1);
         }
       });
-
       return () => {
+        openingReveal?.destroy();
         projectSlider?.destroy();
         capabilityMarquee?.destroy();
         pointerTilt?.destroy();
       };
       }
     );
+    });
   }
 
   window.rebuildScrollMotion = rebuildScrollMotion;

@@ -33,6 +33,7 @@
         "nav.work": "Work",
         "nav.skills": "Skills",
         "nav.contact": "Contact",
+        "opening.role": "Frontend developer shaping clear products with AI.",
         "hero.eyebrow": "Frontend Developer / AI Builder",
         "hero.title": "I turn complex product ideas into clear, reliable web experiences.",
         "hero.body":
@@ -85,6 +86,10 @@
           "A small interaction study exploring calm transitions, feedback, and meaningful detail.",
         "contact.kicker": "Contact",
         "contact.title": "Open to thoughtful frontend and AI collaborations.",
+        "contact.body":
+          "Have a product problem worth untangling? I am open to frontend and AI collaborations with thoughtful teams.",
+        "contact.status": "Open to selected collaborations",
+        "contact.emailLabel": "Email Rowan",
         "controls.english": "English",
         "controls.chinese": "Chinese"
       }
@@ -103,6 +108,7 @@
         "nav.work": "经历",
         "nav.skills": "能力",
         "nav.contact": "联系",
+        "opening.role": "用前端与 AI，把复杂产品做得清晰可靠。",
         "hero.eyebrow": "前端开发者 / AI 产品构建者",
         "hero.title": "复杂产品，我来做成清晰体验。",
         "hero.body":
@@ -149,6 +155,9 @@
         "projects.five.body": "一组小型交互实验，探索克制的过渡、反馈和有意义的细节。",
         "contact.kicker": "联系",
         "contact.title": "欢迎交流前端与 AI 方向的认真合作。",
+        "contact.body": "如果你正在处理值得认真打磨的产品问题，欢迎交流前端与 AI 方向的合作。",
+        "contact.status": "开放精选合作",
+        "contact.emailLabel": "邮件联系 Rowan",
         "controls.english": "English",
         "controls.chinese": "中文"
       }
